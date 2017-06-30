@@ -1,14 +1,35 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { Text, View, Button, StyleSheet } from 'react-native';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 
-export default class App extends React.Component {
+const Hello = ({ screen, goto, navigate }) => (
+  <View style={styles.container}>
+    <Text style={styles.paragraph}>Hello {screen}</Text>
+    <Button title={'Go to ' + goto}
+    onPress={() => navigate(goto)} />
+  </View>
+)
+
+class WelcomeScreen extends Component {
+  static navigationOptions = { title: "Welcome" };
+  render() { return (<Hello screen='WelcomeScreen' goto='Main' navigate={this.props.navigation.navigate} />) }
+}
+class MainScreen extends Component {
+  static navigationOptions = { title: "Main" };
+  render() { return (<Hello screen='MainScreen' goto='Welcome' navigate={this.props.navigation.navigate} />) }
+}
+
+export const StackHome = StackNavigator({
+  Welcome: { screen: WelcomeScreen },
+  Main: { screen: MainScreen },
+}, {headerMode: 'screen'});
+
+
+
+export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu</Text>
-      </View>
+      <StackHome />
     );
   }
 }
@@ -16,8 +37,16 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 30,
+    backgroundColor: '#ecf0f1',
+  },
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#34495e',
   },
 });

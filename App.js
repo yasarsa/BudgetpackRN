@@ -12,11 +12,15 @@ const Hello = ({ screen, goto, navigate }) => (
 
 class WelcomeScreen extends Component {
   static navigationOptions = { title: "Welcome" };
-  render() { return (<Hello screen='WelcomeScreen' goto='Main' navigate={this.props.navigation.navigate} />) }
+  render() {
+    return (
+      <Hello goto='Main' navigate={this.props.navigation.navigate} />)
+    }
 }
 class MainScreen extends Component {
   static navigationOptions = { title: "Main" };
-  render() { return (<Hello screen='MainScreen' goto='Welcome' navigate={this.props.navigation.navigate} />) }
+  render() {
+    return (<Hello screen='MainScreen' goto='Welcome' navigate={this.props.navigation.navigate} />) }
 }
 
 export const StackHome = StackNavigator({

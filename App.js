@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, Button, StyleSheet,TextInput } from 'react-native';
+import { Text, View, Button, StyleSheet,TextInput,Picker } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
-const Nav = ({goto, navigate }) => (
+const Nav = ({goto, navigate, title }) => (
   <View style={styles.buttonStyle}>
-    <Button title={'Go to ' + goto}
+    <Button title={''+title}
     onPress={() => navigate(goto)} />
   </View>
 )
@@ -14,13 +14,13 @@ class WelcomeScreen extends Component {
   static navigationOptions = { title: "Welcome" };
   render() {
     return (
-      <View style={styles.welcomeTextStyle}>
+      <View style={styles.welcomeView}>
         <Text>Budgetpack is a bla bla bla ...
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat scelerisque molestie. Sed lobortis enim et molestie volutpat. Pellentesque lobortis massa eget est viverra lobortis. Etiam gravida non ante vitae commodo. Fusce accumsan lectus eget accumsan molestie. Nulla sapien dui, mollis et eros quis, molestie cursus ex. Ut vitae lacinia elit. Curabitur porttitor orci eu massa pretium vulputate. Maecenas porta bibendum eros ac tempor. Curabitur aliquam pharetra vehicula. Suspendisse condimentum sem eros, quis ultricies mi interdum eu. Sed bibendum placerat nisi, interdum vehicula mauris maximus et.
         Nulla consequat scelerisque velit, eu mollis mauris. Nulla efficitur vel eros at imperdiet. Quisque ac varius purus. Vestibulum faucibus orci eget arcu sagittis, sollicitudin maximus tellus gravida. Vestibulum id ante libero. Nulla sed massa id nunc pretium imperdiet vel ac erat. Proin a elementum purus. Nam placerat felis orci, in fringilla sem pretium eu.
         Donec velit arcu, sodales et urna sit amet, placerat posuere massa. Quisque porta dictum ex, at consequat augue laoreet vitae. Aenean eleifend lacus quis arcu blandit, eget ultricies turpis convallis. Etiam nulla sem, blandit lacinia ex scelerisque, faucibus fermentum erat. Nam rutrum magna augue, et ullamcorper nibh accumsan id. Vivamus massa metus, ullamcorper in augue sit amet, efficitur euismod nunc. Sed in tincidunt ex. Mauris condimentum, quam quis semper volutpat, orci massa tristique lorem, sit amet porta metus ex non erat. Sed vitae facilisis nulla.</Text>
 
-        <Nav goto='Main' navigate={this.props.navigation.navigate} />
+        <Nav title='NEXT' goto='Main' navigate={this.props.navigation.navigate} />
       </View>
       )
     }
@@ -29,16 +29,30 @@ class MainScreen extends Component {
   constructor(props){
     super(props);
     this.state = {inputText: ''};
+    this.state= {char: ''};
   }
   static navigationOptions = { title: "Main" };
   render() {
     return (
-      <View style={styles.welcomeTextStyle}>
+      <View style={styles.mainView}>
         <TextInput style={styles.mainInputStyle}
           placeholder="Please Enter Your Budget Here.."
           keyboardType= 'numeric'
           onChangeText={ (inputText)=> this.setState({inputText})} />
-        <Nav goto='Welcome' navigate={this.props.navigation.navigate} />
+
+          <View style={{paddingTop: 30}}>
+            <Text>Pick the main characteristic of your holiday</Text>
+            <Picker
+              selectedValue={this.state.char}
+              onValueChange={(itemValue, itemIndex) => this.setState({char: itemValue})}>
+              <Picker.Item label="Nightlife" value="night" />
+              <Picker.Item label="Cultural" value="cult" />
+              <Picker.Item label="Relaxation" value="relax" />
+            </Picker>
+            <Text>Characteristic is {this.state.char}</Text>
+          </View>
+
+        <Nav title='FIND A PLAN' goto='Welcome' navigate={this.props.navigation.navigate} />
 
       </View>
     )
@@ -69,7 +83,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     backgroundColor: '#ecf0f1',
   },
-  welcomeTextStyle: {
+  welcomeView: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -77,10 +91,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
   },
   mainInputStyle: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     height: 40,
     backgroundColor: '#ecf0f1',
+  },
+  mainView: {
+    padding: 50,
+    backgroundColor: '#ecf0f1',
+    flex: 1,
   }
 });

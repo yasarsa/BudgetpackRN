@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Button, StyleSheet,TextInput,Picker } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
+import DatePicker from 'react-native-datepicker' ;
 
 const Nav = ({goto, navigate, title }) => (
   <View style={styles.buttonStyle}>
@@ -30,6 +31,8 @@ class MainScreen extends Component {
     super(props);
     this.state = {inputText: ''};
     this.state= {char: ''};
+    this.state= {date:""};
+    this.state= {date2:"" };
   }
   static navigationOptions = { title: "Main" };
   render() {
@@ -45,13 +48,62 @@ class MainScreen extends Component {
             <Picker
               selectedValue={this.state.char}
               onValueChange={(itemValue, itemIndex) => this.setState({char: itemValue})}>
+              <Picker.Item label="None" value="none" />
               <Picker.Item label="Nightlife" value="night" />
               <Picker.Item label="Cultural" value="cult" />
               <Picker.Item label="Relaxation" value="relax" />
             </Picker>
-            <Text>Characteristic is {this.state.char}</Text>
           </View>
 
+          <Text style={{paddingTop: 30}}>Pick the starting and ending date </Text>
+          <View style={{flexDirection: 'row', alignItems: 'stretch' }}>
+            <DatePicker
+              //style={{width: 200}}
+                date={this.state.date}
+                  mode="date"
+                  placeholder="select starting date"
+                  format="YYYY-MM-DD"
+                  minDate="2016-05-01"
+                  maxDate="2026-06-01"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 0
+                    },
+                    dateInput: {
+                      marginLeft: 36
+                    }
+                  }}
+                  onDateChange={(date) => {this.setState({date: date})}}
+            />
+            <DatePicker
+              //style={{width: 200}}
+                date={this.state.date2}
+                  mode="date"
+                  placeholder="select ending date"
+                  format="YYYY-MM-DD"
+                  minDate={this.state.date}
+                  maxDate="2026-06-01"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 0
+                    },
+                    dateInput: {
+                      marginLeft: 36
+                    }
+                  }}
+                  onDateChange={(date) => {this.setState({date2: date})}}
+            />
+          </View>
         <Nav title='FIND A PLAN' goto='Welcome' navigate={this.props.navigation.navigate} />
 
       </View>

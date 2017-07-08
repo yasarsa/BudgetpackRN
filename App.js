@@ -33,15 +33,27 @@ class MainScreen extends Component {
     this.state= {char: ''};
     this.state= {date:""};
     this.state= {date2:"" };
+    this.state={currency:""};
   }
   static navigationOptions = { title: "Main" };
   render() {
     return (
       <View style={styles.mainView}>
-        <TextInput style={styles.mainInputStyle}
-          placeholder="Please Enter Your Budget Here.."
-          keyboardType= 'numeric'
-          onChangeText={ (inputText)=> this.setState({inputText})} />
+
+        <View>
+          <TextInput style={styles.mainInputStyle}
+            placeholder="Please Enter Your Budget Here.."
+            keyboardType= 'numeric'
+            onChangeText={ (inputText)=> this.setState({inputText})} />
+          <Picker
+            selectedValue={this.state.currency}
+            onValueChange={(itemValue, itemIndex) => this.setState({currency: itemValue})}>
+            <Picker.Item label="Currency" value="none" />
+            <Picker.Item label="Euro" value="eur"/>
+            <Picker.Item label="Dolar" value="usd"/>
+            <Picker.Item label="Turkish Lira" value="try"/>
+          </Picker>
+        </View>
 
           <View style={{paddingTop: 30}}>
             <Text>Pick the main characteristic of your holiday</Text>

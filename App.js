@@ -116,16 +116,27 @@ class MainScreen extends Component {
                   onDateChange={(date) => {this.setState({date2: date})}}
             />
           </View>
-        <Nav title='FIND A PLAN' goto='Welcome' navigate={this.props.navigation.navigate} />
+        <Nav title='FIND A PLAN' goto='Result' navigate={this.props.navigation.navigate} />
 
       </View>
     )
   }
 }
 
+class ResultScreen extends Component {
+  static navigationOptions = { title: "Result" };
+  render() {
+    return (
+      <Text> result screen </Text>
+      )
+    }
+}
+
+
 export const StackHome = StackNavigator({
   Welcome: { screen: WelcomeScreen },
   Main: { screen: MainScreen },
+  Result: { screen: ResultScreen},
 }, {headerMode: 'screen'});
 
 

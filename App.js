@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Button, StyleSheet,TextInput,Picker } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import DatePicker from 'react-native-datepicker' ;
+import * as firebase from "firebase";
 
 const Nav = ({goto, navigate, title }) => (
   <View style={styles.buttonStyle}>
@@ -123,11 +124,39 @@ class MainScreen extends Component {
   }
 }
 
+var firebaseConfig = {
+  apiKey: "AIzaSyB4pd5tEpWlCcSzR2-FcqS21_NMaRE_lQE",
+  authDomain: "budgetpack-e5d72.firebaseapp.com",
+  databaseURL: "https://budgetpack-e5d72.firebaseio.com",
+  storageBucket: "budgetpack-a6382.appspot.com",
+}
+firebase.initializeApp(firebaseConfig);
+
 class ResultScreen extends Component {
+  constructor(props){
+    super(props);
+    this.database = firebase.database();
+    this.databaseRef=this.database.ref('Cities');
+    this.state ={
+      cityName: "asd",
+      budget: "",
+    }
+  }
+  readData(){
+    this.databaseRef.child('Barcelona').child('budget').once('value',(snapshot)=>{
+      console.log("readdata fonksiyonu");
+      this.setState({budget: snapshot.val()});
+      console.log("budget is ",this.state.budget);
+    });
+  }
+  componentDidMount(){
+    console.log("componenmount");
+    this.readData();
+  }
   static navigationOptions = { title: "Result" };
   render() {
     return (
-      <Text> result screen </Text>
+      <Text> Budget for Barcelona is {this.state.budget}</Text>
       )
     }
 }
